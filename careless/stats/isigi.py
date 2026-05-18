@@ -11,6 +11,7 @@ import seaborn as sns
 
 from careless.io.formatter import get_first_key_of_dtype
 from careless.stats.parser import BaseParser
+from careless.utils.friedel import is_anomalous_output
 
 
 class ArgumentParser(BaseParser):
@@ -78,7 +79,7 @@ def run_analysis(args):
     ds["bin"] = bins
     labels = [f"{e1:0.2f} - {e2:0.2f}" for e1, e2 in zip(edges[:-1], edges[1:])]
 
-    if "F(+)" in ds.columns:
+    if is_anomalous_output(ds):
         ds = ds.stack_anomalous()
 
     ikey = args.I_col
